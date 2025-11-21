@@ -1,0 +1,140 @@
+'use client';
+
+import Image from 'next/image';
+import Link from 'next/link';
+
+const styles = {
+    header: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(10px)',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+        zIndex: 1000,
+    },
+    container: {
+        maxWidth: '1400px',
+        margin: '0 auto',
+        padding: '0 2rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        height: '80px',
+    },
+    logo: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    nav: {
+        display: 'flex',
+        gap: '2rem',
+        alignItems: 'center',
+    },
+    navLink: {
+        fontSize: '0.875rem',
+        fontWeight: '500',
+        letterSpacing: '0.5px',
+        color: '#333',
+        textDecoration: 'none',
+        transition: 'color 0.3s',
+        cursor: 'pointer',
+    },
+    icons: {
+        display: 'flex',
+        gap: '1.5rem',
+        alignItems: 'center',
+    },
+    iconButton: {
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        fontSize: '1.5rem',
+        color: '#333',
+        transition: 'color 0.3s',
+    },
+};
+
+const navItems = [
+    'HOME',
+    'PRODUCTS',
+    'ABOUT',
+    'CONTACT',
+];
+
+const Header = () => {
+    return (
+        <header style={styles.header}>
+            <div style={styles.container}>
+                {/* Logo */}
+                <div style={styles.logo}>
+                    <Link href="/">
+                        <Image
+                            src="/logo.svg"
+                            alt="Sufia Roots Logo"
+                            width={120}
+                            height={60}
+                            priority
+                        />
+                    </Link>
+                </div>
+
+                {/* Navigation */}
+                <nav style={styles.nav}>
+                    {navItems.map((item, index) => (
+                        <Link
+                            key={index}
+                            href={`/${item.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}`}
+                            style={styles.navLink}
+                            onMouseEnter={(e) => e.target.style.color = '#D4A574'}
+                            onMouseLeave={(e) => e.target.style.color = '#333'}
+                        >
+                            {item}
+                        </Link>
+                    ))}
+                </nav>
+
+                {/* Icons */}
+                <div style={styles.icons}>
+                    <button
+                        style={styles.iconButton}
+                        onMouseEnter={(e) => e.target.style.opacity = '0.7'}
+                        onMouseLeave={(e) => e.target.style.opacity = '1'}
+                        aria-label="Search"
+                    >
+                        <Image
+                            src="/icons/searchIcon copy.svg"
+                            alt="Search"
+                            width={26}
+                            height={26}
+                        />
+                    </button>
+                    <button
+                        style={styles.iconButton}
+                        onMouseEnter={(e) => e.target.style.opacity = '0.7'}
+                        onMouseLeave={(e) => e.target.style.opacity = '1'}
+                        aria-label="User Account"
+                    >
+                        <Image
+                            src="/icons/userIcon.svg"
+                            alt="User"
+                            width={26}
+                            height={26}
+                        />
+                    </button>
+                    <button
+                        style={styles.iconButton}
+                        onMouseEnter={(e) => e.target.style.color = '#D4A574'}
+                        onMouseLeave={(e) => e.target.style.color = '#333'}
+                        aria-label="Shopping Cart"
+                    >
+                        🛒
+                    </button>
+                </div>
+            </div>
+        </header>
+    );
+};
+
+export default Header;
