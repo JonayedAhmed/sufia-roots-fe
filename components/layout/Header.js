@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 const styles = {
     header: {
@@ -15,7 +16,7 @@ const styles = {
     },
     headerScrolled: {
         backgroundColor: 'rgba(255, 255, 255, 0.95)',
-        backdropFilter: 'blur(10px)',
+        backdropFilter: 'blur(0.5px)',
         boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
     },
     container: {
@@ -77,6 +78,8 @@ const navItems = [
 
 const Header = () => {
     const [scrolled, setScrolled] = useState(false);
+    const pathname = usePathname();
+    const isHomePage = pathname === '/';
 
     useEffect(() => {
         const handleScroll = () => {
@@ -87,9 +90,9 @@ const Header = () => {
     }, []);
 
 
-    const headerStyle = scrolled
-        ? { ...styles.header, ...styles.headerScrolled }
-        : styles.header;
+    const headerStyle = isHomePage && !scrolled
+        ? styles.header
+        : { ...styles.header, ...styles.headerScrolled };
 
     return (
         <header style={headerStyle}>
@@ -110,16 +113,16 @@ const Header = () => {
                 {/* Navigation */}
                 <nav style={styles.nav}>
                     {navItems.map((item, index) => {
-                        const navLinkStyle = scrolled
-                            ? { ...styles.navLink, ...styles.navLinkScrolled }
-                            : styles.navLink;
+                        const navLinkStyle = isHomePage && !scrolled
+                            ? styles.navLink
+                            : { ...styles.navLink, ...styles.navLinkScrolled };
                         return (
                             <Link
                                 key={index}
                                 href={`/${item.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}`}
                                 style={navLinkStyle}
                                 onMouseEnter={(e) => e.target.style.color = '#D4A574'}
-                                onMouseLeave={(e) => e.target.style.color = scrolled ? '#333' : '#fff'}
+                                onMouseLeave={(e) => e.target.style.color = (isHomePage && !scrolled) ? '#fff' : '#333'}
                             >
                                 {item}
                             </Link>
@@ -130,7 +133,7 @@ const Header = () => {
                 {/* Icons */}
                 <div style={styles.icons}>
                     <button
-                        style={scrolled ? { ...styles.iconButton, ...styles.iconButtonScrolled } : styles.iconButton}
+                        style={isHomePage && !scrolled ? styles.iconButton : { ...styles.iconButton, ...styles.iconButtonScrolled }}
                         onMouseEnter={(e) => e.target.style.opacity = '0.7'}
                         onMouseLeave={(e) => e.target.style.opacity = '1'}
                         aria-label="Search"
@@ -142,23 +145,25 @@ const Header = () => {
                             height={26}
                         />
                     </button>
+                    <Link href="/login">
+                        <button
+                            style={isHomePage && !scrolled ? styles.iconButton : { ...styles.iconButton, ...styles.iconButtonScrolled }}
+                            onMouseEnter={(e) => e.target.style.opacity = '0.7'}
+                            onMouseLeave={(e) => e.target.style.opacity = '1'}
+                            aria-label="User Account"
+                        >
+                            <Image
+                                src="/icons/userIcon.svg"
+                                alt="User"
+                                width={26}
+                                height={26}
+                            />
+                        </button>
+                    </Link>
                     <button
-                        style={scrolled ? { ...styles.iconButton, ...styles.iconButtonScrolled } : styles.iconButton}
-                        onMouseEnter={(e) => e.target.style.opacity = '0.7'}
-                        onMouseLeave={(e) => e.target.style.opacity = '1'}
-                        aria-label="User Account"
-                    >
-                        <Image
-                            src="/icons/userIcon.svg"
-                            alt="User"
-                            width={26}
-                            height={26}
-                        />
-                    </button>
-                    <button
-                        style={scrolled ? { ...styles.iconButton, ...styles.iconButtonScrolled } : styles.iconButton}
+                        style={isHomePage && !scrolled ? styles.iconButton : { ...styles.iconButton, ...styles.iconButtonScrolled }}
                         onMouseEnter={(e) => e.target.style.color = '#D4A574'}
-                        onMouseLeave={(e) => e.target.style.color = scrolled ? '#333' : '#fff'}
+                        onMouseLeave={(e) => e.target.style.color = (isHomePage && !scrolled) ? '#fff' : '#333'}
                         aria-label="Shopping Cart"
                     >
                         🛒
