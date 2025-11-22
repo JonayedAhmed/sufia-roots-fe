@@ -12,21 +12,22 @@ const styles = {
         padding: '120px 32px 64px',
         backgroundColor: '#fff',
     },
-    wrapper: {
-        maxWidth: '920px',
-        width: '100%',
-    },
     title: {
         fontSize: '2.5rem',
         fontWeight: '400',
         color: '#333',
+    },
+    subtitle: {
         marginBottom: '30px',
+        color: '#6b6b6b',
+        fontSize: '14px',
     },
     inputWrapper: {
         marginBottom: '20px',
     },
     input: {
         width: '600px',
+        maxWidth: '100%',
         padding: '16px',
         fontSize: '16px',
         border: '1px solid #d1d1d1',
@@ -84,8 +85,14 @@ const RegisterPage = () => {
 
     return (
         <div style={styles.container}>
-            <div style={styles.wrapper}>
+            <div>
                 <h1 style={styles.title}>Create Account</h1>
+                <p style={styles.subtitle}>
+                    Already have an account?{' '}
+                    <Link href="/login" style={{ color: '#333', textDecoration: 'underline' }}>
+                        Sign in
+                    </Link>
+                </p>
 
                 <form onSubmit={handleSubmit}>
                     <div style={styles.inputWrapper}>
